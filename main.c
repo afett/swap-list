@@ -13,6 +13,27 @@ struct node {
 	struct node *next;
 };
 
+static struct node *swap(struct node *n1, struct node *head)
+{
+	struct node *n2;
+
+	if (!n1 || !n1->next) {
+		return n1;
+	}
+
+	if (n1->next == head) {
+		n1->next = head->next;
+		return n1;
+	}
+
+	n2 = n1->next;
+	n1->next = (n2->next == head) ?
+		head->next : swap(n2->next, head);
+	n2->next = n1;
+
+	return n2;
+}
+
 /*
  * Write a function that will swap pairs of elements in a given
  * singly-linked list. Note that you have to actually swap the elements
@@ -27,10 +48,7 @@ struct node {
  */
 static struct node *swapPairs(struct node *l)
 {
-	struct node *swapped_list;
-
-	swapped_list = l;
-	return swapped_list;
+	return swap(l, l);
 }
 
 static void dump(struct node *l)
